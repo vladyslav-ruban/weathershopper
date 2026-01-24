@@ -10,6 +10,8 @@ export class ProductsPage {
 
     this.cartButton = page.getByRole("button", { name: "Cart", exact: false });
     this.productCards = page.locator(".text-center.col-4");
+
+    this.page.waitForLoadState("domcontentloaded");
   }
 
   private priceLine(card: Locator): Locator {
@@ -45,6 +47,7 @@ export class ProductsPage {
   }
 
   async addCheapestProductCardWithSubstring(substring: string): Promise<void> {
+    await this.productCards.first().waitFor({ state: "visible" });
     const cards = await this.productCards.all();
 
     let bestCard: Locator | null = null;
@@ -67,6 +70,6 @@ export class ProductsPage {
     if (!bestCard) {
       throw new Error(`No product card found with substring "${substring}"`);
     }
-    this.addButton(bestCard).click();
+    await this.addButton(bestCard).click();
   }
 }
