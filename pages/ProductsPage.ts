@@ -10,8 +10,6 @@ export class ProductsPage {
 
     this.cartButton = page.getByRole("button", { name: "Cart", exact: false });
     this.productCards = page.locator(".text-center.col-4");
-
-    this.page.waitForLoadState("domcontentloaded");
   }
 
   private priceLine(card: Locator): Locator {
