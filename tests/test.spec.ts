@@ -6,6 +6,7 @@ import { CheckoutPage } from "../pages/CheckoutPage";
 test("Weathershopper tasks", async ({ page }) => {
   let product1: string;
   let product2: string;
+
   const mainPage = new MainPage(page);
   await mainPage.goto();
   const temperature = await mainPage.getTemperatureValue();

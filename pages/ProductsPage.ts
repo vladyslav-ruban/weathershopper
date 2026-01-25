@@ -58,6 +58,7 @@ export class ProductsPage {
       const name = (await this.productTitle(card).innerText())
         .trim()
         .toLowerCase();
+
       if (!name.includes(substring.toLowerCase())) continue;
 
       const price = await this.productPrice(card);
@@ -72,6 +73,7 @@ export class ProductsPage {
     if (!bestCard) {
       throw new Error(`No product card found with substring "${substring}"`);
     }
+
     await this.addButton(bestCard).click();
 
     return {
