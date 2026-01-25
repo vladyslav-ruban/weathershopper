@@ -4,6 +4,7 @@ export class CheckoutPage {
   readonly page: Page;
   readonly payWithCardButton: Locator;
   readonly paymentSuccessMessage: Locator;
+  readonly totalPrice: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -15,11 +16,24 @@ export class CheckoutPage {
       level: 2,
       name: "PAYMENT SUCCESS",
     });
+    this.totalPrice = page.locator("#total");
   }
 
-  async verifyItemsInCart(query: string): Promise<void> {
-    const pattern = new RegExp(query, "i");
-    await expect(this.page.getByRole("cell", { name: pattern })).toBeVisible();
+  async verifyCartItem(name: string, price: number): Promise<void> {
+    const row = this.page
+      .getByRole("row")
+      .filter({ has: this.page.getByRole("cell", { name }) });
+
+    await expect(row, `Row for item "${name}" should exist`).toHaveCount(1);
+
+    await expect(
+      row.getByRole("cell", { name: String(price) }),
+      `Price for "${name}" should be ${price}`,
+    ).toBeVisible();
+  }
+
+  async verifyTotalPrice(price1: number, price2: number): Promise<void> {
+    expect(this.totalPrice).toContainText(String(price1 + price2));
   }
 
   async fillPaymentDataAndClickPay(): Promise<void> {

@@ -24,12 +24,29 @@ test("Weathershopper tasks", async ({ page }) => {
 
   const productsPage = new ProductsPage(page);
   await productsPage.page.waitForLoadState("domcontentloaded");
-  await productsPage.addCheapestProductCardWithSubstring(product1);
-  await productsPage.addCheapestProductCardWithSubstring(product2);
+
+  const cheapestProduct1 =
+    await productsPage.addCheapestProductCardWithSubstring(product1);
+  const cheapestProduct2 =
+    await productsPage.addCheapestProductCardWithSubstring(product2);
+
   await productsPage.cartButton.click();
+
   const checkoutPage = new CheckoutPage(page);
-  await checkoutPage.verifyItemsInCart(product1);
-  await checkoutPage.verifyItemsInCart(product2);
+
+  await checkoutPage.verifyCartItem(
+    cheapestProduct1.name,
+    cheapestProduct1.price,
+  );
+  await checkoutPage.verifyCartItem(
+    cheapestProduct2.name,
+    cheapestProduct2.price,
+  );
+  await checkoutPage.verifyTotalPrice(
+    cheapestProduct1.price,
+    cheapestProduct2.price,
+  );
+
   await checkoutPage.payWithCardButton.click();
   await checkoutPage.fillPaymentDataAndClickPay();
 

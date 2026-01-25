@@ -44,12 +44,15 @@ export class ProductsPage {
     return price;
   }
 
-  async addCheapestProductCardWithSubstring(substring: string): Promise<void> {
+  async addCheapestProductCardWithSubstring(
+    substring: string,
+  ): Promise<{ name: string; price: number }> {
     await this.productCards.first().waitFor({ state: "visible" });
     const cards = await this.productCards.all();
 
     let bestCard: Locator | null = null;
     let bestPrice = Number.POSITIVE_INFINITY;
+    let bestName = "";
 
     for (const card of cards) {
       const name = (await this.productTitle(card).innerText())
@@ -62,6 +65,7 @@ export class ProductsPage {
       if (price < bestPrice) {
         bestPrice = price;
         bestCard = card;
+        bestName = name;
       }
     }
 
@@ -69,5 +73,10 @@ export class ProductsPage {
       throw new Error(`No product card found with substring "${substring}"`);
     }
     await this.addButton(bestCard).click();
+
+    return {
+      name: bestName,
+      price: bestPrice,
+    };
   }
 }
