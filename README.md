@@ -21,6 +21,12 @@ matching items to the cart, and completes a Stripe test checkout.
 npm install
 ```
 
+## Install Playwright Browsers
+
+```bash
+npx playwright install
+```
+
 ## Run Tests
 
 ```bash
