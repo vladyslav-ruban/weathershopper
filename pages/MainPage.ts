@@ -18,7 +18,7 @@ export class MainPage {
   }
 
   async goto() {
-    await this.page.goto("https://weathershopper.pythonanywhere.com/");
+    await this.page.goto("/");
   }
 
   async clickBuyMoisturizers() {
