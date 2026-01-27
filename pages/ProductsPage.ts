@@ -63,11 +63,10 @@ export class ProductsPage {
     let bestName = "";
 
     for (const card of cards) {
-      const name = (await this.productTitle(card).innerText())
-        .trim()
-        .toLowerCase();
+      const name = (await this.productTitle(card).innerText()).trim();
+      const normalizedName = name.toLowerCase();
 
-      if (!name.includes(substring.toLowerCase())) continue;
+      if (!normalizedName.includes(substring.toLowerCase())) continue;
 
       const price = await this.productPrice(card);
 
