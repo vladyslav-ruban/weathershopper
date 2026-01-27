@@ -27,9 +27,12 @@ test("Weathershopper tasks", async ({ page }) => {
   await productsPage.waitForReady();
 
   const cheapestProduct1 =
-    await productsPage.addCheapestProductCardWithSubstring(product1);
+    await productsPage.getCheapestProductCardWithSubstring(product1);
   const cheapestProduct2 =
-    await productsPage.addCheapestProductCardWithSubstring(product2);
+    await productsPage.getCheapestProductCardWithSubstring(product2);
+
+  await productsPage.addProduct(cheapestProduct1.productCard);
+  await productsPage.addProduct(cheapestProduct2.productCard);
 
   await productsPage.goToCart();
 

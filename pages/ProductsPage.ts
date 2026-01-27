@@ -52,9 +52,9 @@ export class ProductsPage {
     return price;
   }
 
-  async addCheapestProductCardWithSubstring(
+  async getCheapestProductCardWithSubstring(
     substring: string,
-  ): Promise<{ name: string; price: number }> {
+  ): Promise<{ productCard: Locator; name: string; price: number }> {
     await this.productCards.first().waitFor({ state: "visible" });
     const cards = await this.productCards.all();
 
@@ -81,11 +81,14 @@ export class ProductsPage {
       throw new Error(`No product card found with substring "${substring}"`);
     }
 
-    await this.addButton(bestCard).click();
-
     return {
+      productCard: bestCard,
       name: bestName,
       price: bestPrice,
     };
+  }
+
+  async addProduct(productCard: Locator): Promise<void> {
+    await this.addButton(productCard).click();
   }
 }
