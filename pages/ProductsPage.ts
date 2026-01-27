@@ -1,15 +1,23 @@
 import { expect, Locator, Page } from "@playwright/test";
 
 export class ProductsPage {
-  readonly page: Page;
-  readonly productCards: Locator;
-  readonly cartButton: Locator;
+  private readonly page: Page;
+  private readonly productCards: Locator;
+  private readonly cartButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
 
     this.cartButton = page.getByRole("button", { name: "Cart", exact: false });
     this.productCards = page.locator(".text-center.col-4");
+  }
+
+  async goToCart(): Promise<void> {
+    await this.cartButton.click();
+  }
+
+  async waitForReady(): Promise<void> {
+    await this.page.waitForLoadState("domcontentloaded");
   }
 
   private priceLine(card: Locator): Locator {

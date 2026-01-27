@@ -1,10 +1,10 @@
 import { expect, Locator, Page } from "@playwright/test";
 
 export class CheckoutPage {
-  readonly page: Page;
-  readonly payWithCardButton: Locator;
+  private readonly page: Page;
+  private readonly payWithCardButton: Locator;
   readonly paymentSuccessMessage: Locator;
-  readonly totalPrice: Locator;
+  private readonly totalPrice: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -56,5 +56,9 @@ export class CheckoutPage {
     await zipCodeInput.waitFor({ state: "visible" });
     await zipCodeInput.pressSequentially("28045", { delay: 100 });
     await stripeFrame.getByRole("button", { name: /Pay/i }).click();
+  }
+
+  async clickPayWithCardButton(): Promise<void> {
+    this.payWithCardButton.click();
   }
 }
