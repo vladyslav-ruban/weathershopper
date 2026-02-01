@@ -30,10 +30,12 @@ export class MainPage {
   }
 
   async getTemperatureValue(): Promise<number> {
-    return this.temperatureSpan.evaluate((el) => {
-      const raw = el.firstChild?.textContent?.trim().replace("−", "-");
+    const text = await this.temperatureSpan.innerText();
+    const normalized = text
+      .replace("−", "-")
+      .replace(/\s+/g, "")
+      .replace(/[^\d.-]/g, "");
 
-      return Number(raw);
-    });
+    return Number(normalized);
   }
 }
